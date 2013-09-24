@@ -5,6 +5,12 @@ class geolocation {
   	  "test ! -d /usr/share/GeoIP"
   	]
   }
+  exec { "download org database":
+    command => "sudo sh -c 'curl http://s3.amazonaws.com/shopify/s/files/2aee18af95c47346ccf4ee7e315a5d62/GeoIPOrg.dat.gz | gunzip > /usr/share/GeoIP/GeoIPOrg.dat'",
+    onlyif => [
+      "test ! -s /usr/share/GeoIP/GeoIPOrg.dat"
+    ]
+  }
   exec { "download city database":
     command => "sudo sh -c 'curl http://s3.amazonaws.com/shopify/s/files/2aee18af95c47346ccf4ee7e315a5d62/GeoIPCity.dat.gz | gunzip > /usr/share/GeoIP/GeoIPCity.dat'",
     onlyif => [
@@ -15,12 +21,6 @@ class geolocation {
     command => "sudo sh -c 'curl http://s3.amazonaws.com/shopify/s/files/2aee18af95c47346ccf4ee7e315a5d62/GeoIPISP.dat.gz | gunzip > /usr/share/GeoIP/GeoIPISP.dat'",
     onlyif => [
       "test ! -s /usr/share/GeoIP/GeoIPISP.dat"
-    ]
-  }
-  exec { "download org database":
-    command => "sudo sh -c 'curl http://s3.amazonaws.com/shopify/s/files/2aee18af95c47346ccf4ee7e315a5d62/GeoIPOrg.dat.gz | gunzip > /usr/share/GeoIP/GeoIPOrg.dat'",
-    onlyif => [
-      "test ! -s /usr/share/GeoIP/GeoIPOrg.dat"
     ]
   }
 }
